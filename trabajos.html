@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajos | Gabriel Santomero</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:white;">GS<span>.</span></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">Inicio</a></li>
+            <li><a href="contacto.html" class="nav-item">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <header class="header-trabajos">
+        <h1 class="reveal">PORTFOLIO</h1>
+        <p class="reveal-delayed">Explora mis proyectos por categoría</p>
+    </header>
+
+    <div class="filter-bar">
+        <a href="#grafico" class="filter-btn">Gráfico</a>
+        <a href="#uxui" class="filter-btn">UX/UI</a>
+        <a href="#3d" class="filter-btn">Diseño 3D</a>
+        <a href="#fullstack" class="filter-btn">Full Stack</a>
+    </div>
+
+    <main class="portfolio-container">
+        
+        <section id="grafico" class="portfolio-section">
+            <h2 class="section-title"><span>01</span> Diseño Gráfico</h2>
+            <div class="work-grid-detailed">
+                <article class="work-item reveal">
+                    <div class="work-img" style="background-image: url('branding-1.jpg');"></div>
+                    <div class="work-content">
+                        <h3>Branding Identidad Visual</h3>
+                        <p>Creación de logotipo, paleta cromática y manual de marca para startup tecnológica.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="uxui" class="portfolio-section">
+            <h2 class="section-title"><span>02</span> UX / UI Design</h2>
+            <div class="work-grid-detailed">
+                <article class="work-item reveal">
+                    <div class="work-img" style="background-image: url('ui-app.jpg');"></div>
+                    <div class="work-content">
+                        <h3>Fintech App Design</h3>
+                        <p>Prototipado de alta fidelidad y sistema de diseño escalable centrado en el usuario.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="3d" class="portfolio-section">
+            <h2 class="section-title"><span>03</span> Modelado 3D & Unity</h2>
+            <div class="work-grid-detailed">
+                <article class="work-item reveal">
+                    <div class="work-img" style="background-image: url('render-3d.jpg');"></div>
+                    <div class="work-content">
+                        <h3>Entornos Unity 6</h3>
+                        <p>Modelado de assets optimizados y combinación de shaders 2D/3D con C#.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="fullstack" class="portfolio-section">
+            <h2 class="section-title"><span>04</span> Full Stack Dev</h2>
+            <div class="work-grid-detailed">
+                <article class="work-item reveal">
+                    <div class="work-img" style="background-image: url('code-project.jpg');"></div>
+                    <div class="work-content">
+                        <h3>E-commerce Engine</h3>
+                        <p>Desarrollo integral de plataforma de ventas con panel administrativo dinámico.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contacto" class="professional-footer">
+        <h2 class="footer-title">¿Listo para <span class="accent-text">empezar</span>?</h2>
+        <a href="https://wa.me/TUNUMERO" class="cta-large">Enviame un WhatsApp</a>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

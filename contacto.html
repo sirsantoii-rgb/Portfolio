@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Gabriel Santomero</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:white;">GS<span>.</span></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">Inicio</a></li>
+            <li><a href="trabajos.html" class="nav-item">Trabajos</a></li>
+            <li><a href="sobre-mi.html" class="nav-item">Sobre mí</a></li>
+        </ul>
+    </nav>
+
+    <main class="contact-container">
+        <div class="contact-grid">
+            
+            <div class="contact-info reveal">
+                <h1 class="outline">HABLEMOS</h1>
+                <p>¿Tienes una idea para un juego en Unity, un proyecto 3D o una aplicación web? Estoy listo para darle vida.</p>
+                
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <span>Email</span>
+                        <p>gabriel.santomero@tuemail.com</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>Ubicación</span>
+                        <p>Disponible para trabajo remoto</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-wrapper reveal-delayed">
+                <form id="contact-form">
+                    <div class="input-group">
+                        <label for="user_name">Nombre</label>
+                        <input type="text" name="user_name" id="user_name" placeholder="Tu nombre" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="user_email">Email</label>
+                        <input type="email" name="user_email" id="user_email" placeholder="tu@email.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="message">Proyecto / Sugerencia</label>
+                        <textarea name="message" id="message" rows="4" placeholder="Cuéntame sobre tu idea..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">ENVIAR PROYECTO</button>
+                    
+                    <a href="https://wa.me/TUNUMERO" class="wa-contact-link" target="_blank">
+                        O envíame un WhatsApp directo
+                    </a>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="mini-footer">
+        <p>© 2024 Gabriel Santomero — All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

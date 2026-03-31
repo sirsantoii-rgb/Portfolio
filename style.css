@@ -1,0 +1,514 @@
+:root {
+    --bg: #0d0d0d;
+    --text: #ffffff;
+    --accent: #ff3e3e; /* Rojo para acentos */
+    --gray: #888;
+    --glass: rgba(255, 255, 255, 0.03);
+    --font-hero: 'Bebas Neue', sans-serif;
+    --font-main: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* NAVEGACIÓN (Fusión: Estilo 1 + Animación del 2) */
+nav {
+    display: flex;
+    backdrop-filter: blur(10px);
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo { 
+    font-family: var(--font-hero);
+    font-weight: 800; 
+    font-size: 2rem; 
+    letter-spacing: -1px;
+}
+.logo span { color: var(--accent); }
+
+.nav-links { display: flex; list-style: none; gap: 15px; }
+
+.nav-item {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 30px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 1px solid transparent;
+}
+
+/* Animación de los botoncitos */
+.nav-item:hover, .nav-item.active {
+    background: var(--glass);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--accent);
+}
+
+/* HERO SECTION (Volvemos al Estilo 1: Centrado y Gigante) */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5%;
+}
+
+.hero h1 {
+    font-family: var(--font-hero);
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.85;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: -2px;
+}
+
+.hero p {
+    margin-top: 20px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Efecto Outline para el primer h1 */
+.outline {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+    color: transparent;
+}
+
+/* GRID DE PROYECTOS (Del Estilo 1) */
+.work-section { padding: 100px 5%; }
+.grid-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    aspect-ratio: 16/9;
+    background: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-image {
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image { transform: scale(1.05); }
+
+.project-info {
+    position: absolute; bottom: 0; left: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    width: 100%;
+}
+
+.project-info span { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
+.project-info h3 { font-family: var(--font-hero); font-size: 1.5rem; }
+
+/* FOOTER PROFESIONAL (Estilo 2 Mejorado) */
+.professional-footer {
+    padding: 120px 5%;
+    background: #050505;
+    text-align: center;
+}
+
+.footer-sub { color: var(--gray); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
+.footer-title { 
+    font-family: var(--font-hero); 
+    font-size: clamp(2.5rem, 7vw, 6rem); 
+    line-height: 1;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+.accent-text { color: var(--accent); }
+
+.cta-large {
+    display: inline-flex; height: 60px; padding: 0 40px;
+    align-items: center; gap: 15px;
+    font-size: 1.1rem; text-decoration: none;
+    color: white; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px; transition: 0.3s;
+    background: var(--glass);
+}
+
+.cta-large:hover { background: white; color: black; gap: 20px; }
+
+/* WHATSAPP FLOAT */
+.whatsapp-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    background: #25d366; color: white;
+    padding: 10px 20px; border-radius: 30px;
+    text-decoration: none; display: flex; align-items: center; gap: 8px;
+    font-weight: bold; font-size: 0.9rem;
+    z-index: 1000; transition: 0.3s;
+}
+.whatsapp-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .nav-links { display: none; } /* En móviles puedes crear un menú hamburguesa luego */
+    .hero p { letter-spacing: 1px; }
+}
+
+
+/* ---------------------------------------------------TRABAOS--------------------------------- */
+/* Específicos para Trabajos */
+.header-trabajos {
+    padding: 150px 5% 50px;
+    text-align: center;
+}
+
+.header-trabajos h1 {
+    font-family: var(--font-hero);
+    font-size: clamp(5rem, 15vw, 10rem);
+    letter-spacing: -2px;
+}
+
+/* Barra de Filtros Sticky */
+.filter-bar {
+    position: sticky;
+    top: 80px;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(13, 13, 13, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.filter-btn {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.filter-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Secciones de Portfolio */
+.portfolio-container { padding: 0 5%; }
+.portfolio-section { padding: 80px 0; border-bottom: 1px solid #1a1a1a; }
+
+.section-title {
+    font-family: var(--font-hero);
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.section-title span {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+/* Grid de trabajos detallado */
+.work-grid-detailed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 40px;
+}
+
+.work-item {
+    background: #141414;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.work-item:hover { transform: translateY(-10px); }
+
+.work-img {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(40%);
+    transition: 0.5s;
+}
+
+.work-item:hover .work-img { filter: grayscale(0%); }
+
+.work-content {
+    padding: 30px;
+}
+
+.work-content h3 {
+    font-family: var(--font-hero);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.work-content p {
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+/* Responsive para celulares */
+@media (max-width: 768px) {
+    .filter-bar {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 15px 5%;
+    }
+    .filter-btn { flex-shrink: 0; }
+    .work-grid-detailed { grid-template-columns: 1fr; }
+    .section-title { font-size: 2.2rem; }
+}
+
+/* ---------------------------------------------------Sobremi--------------------------------- */
+/* DISEÑO SOBRE MÍ */
+.about-container {
+    padding: 150px 5% 50px;
+}
+
+.about-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 120px;
+}
+
+.about-img {
+    width: 100%;
+    height: 600px;
+    background-color: #1a1a1a;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+    transition: 0.5s ease;
+}
+
+.about-img:hover { filter: grayscale(0%); }
+
+.about-text h1 {
+    font-family: var(--font-hero);
+    line-height: 0.9;
+    margin-bottom: 30px;
+}
+
+.about-text p {
+    font-size: 1.2rem;
+    color: var(--gray);
+    max-width: 500px;
+}
+
+/* TABLA DE EXPERIENCIA (Estilo OddXandre) */
+.experience-section {
+    padding: 100px 0;
+    border-top: 1px solid #222;
+}
+
+.experience-table {
+    margin-top: 40px;
+}
+
+.table-header, .table-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    padding: 25px 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.9rem;
+}
+
+.table-header {
+    color: var(--gray);
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.table-row {
+    transition: 0.3s;
+}
+
+.table-row:hover {
+    color: var(--accent);
+    padding-left: 10px;
+}
+
+.table-row .year {
+    text-align: right;
+    color: var(--gray);
+}
+
+.role { font-weight: bold; color: #fff; }
+
+/* SKILLS */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.skill-box h3 {
+    font-family: var(--font-hero);
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+/* RESPONSIVE SOBRE MÍ */
+@media (max-width: 900px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .about-img { height: 400px; }
+    .table-header { display: none; }
+    .table-row { grid-template-columns: 1fr; gap: 5px; }
+    .table-row .year { text-align: left; margin-top: 10px; }
+    .skills-grid { grid-template-columns: 1fr; }
+}
+
+/* -------------------------------------------CONTACTO--------------------------------- */
+/* DISEÑO DE CONTACTO */
+.contact-container {
+    min-height: 100vh;
+    padding: 150px 5% 50px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    width: 100%;
+}
+
+.contact-info h1 {
+    font-family: var(--font-hero);
+    font-size: clamp(4rem, 10vw, 8rem);
+    line-height: 0.9;
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 400px;
+    margin-bottom: 40px;
+}
+
+.contact-details .detail-item {
+    margin-bottom: 25px;
+}
+
+.detail-item span {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.detail-item p {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+/* FORMULARIO */
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--gray);
+}
+
+.input-group input, 
+.input-group textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+}
+
+.submit-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 20px;
+    font-family: var(--font-hero);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.submit-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.wa-contact-link {
+    text-align: center;
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.wa-contact-link:hover { color: #25d366; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .contact-container { padding-top: 100px; }
+}
