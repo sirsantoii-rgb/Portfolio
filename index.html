@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/scrollreveal"></script>
+    
 </head>
 <body>
 
     <nav>
-        <div class="logo">GS<span>.</span></div>
-        <ul class="nav-links">
-            <li><a href="trabajos.html" class="nav-item">PortFolio</a></li>
-            <li><a href="sobre-mi.html" class="nav-item">Sobre mí</a></li>
-            <li><a href="contacto.html" class="nav-item">Contacto</a></li>
-        </ul>
-    </nav>
+    <div class="logo"><a href="index.html" style="text-decoration:none; color:white;">GS<span>.</span></a></div>
+    
+    <div class="menu-toggle" id="mobile-menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+</div>
+
+    <ul class="nav-links" id="nav-list">
+        <li><a href="index.html" class="nav-item">Inicio</a></li>
+        <li><a href="trabajos.html" class="nav-item">Trabajos</a></li>
+        <li><a href="sobre-mi.html" class="nav-item">Sobre mí</a></li>
+        <li><a href="contacto.html" class="nav-item">Contacto</a></li>
+    </ul>
+</nav>
 
     <header class="hero">
         <div class="hero-content">
@@ -50,7 +59,7 @@
         <div class="footer-container reveal">
             <p class="footer-sub">¿Tienes un proyecto en mente?</p>
             <h2 class="footer-title">Vamos a <span class="accent-text">crear</span> algo increíble.</h2>
-            <a href="mailto:gabriel@tuemail.com" class="cta-large">
+            <a href="contacto.html" class="cta-large">
                 Hablemos por correo
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>

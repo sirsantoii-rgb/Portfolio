@@ -42,31 +42,29 @@ document.querySelectorAll('.filter-btn').forEach(button => {
 
 /* -------------------------Contactos---------------------------- */
 // --- CONFIGURACIÓN EMAILJS ---
-(function(){
-    emailjs.init("-Z0Rv_lWNyWhWv1LI");
-})();
-
+/* --- ENVÍO DE FORMULARIO EMAILJS --- */
 const contactForm = document.getElementById("contact-form");
 
-if(contactForm) {
-    contactForm.addEventListener("submit", function(e){
+if (contactForm) {
+    contactForm.addEventListener("submit", function(e) {
         e.preventDefault();
-        
-        // Cambiar texto del botón para feedback visual
+
+        // Feedback visual en el botón
         const btn = this.querySelector(".submit-btn");
         const originalText = btn.innerText;
-        btn.innerText = "ENVIANDO...";
+        btn.innerText = "Enviando...";
 
         emailjs.sendForm(
             "service_67b83pw",
             "template_qr6uy4e",
             this
-        ).then(function(){
-            alert("¡Mensaje enviado con éxito, Gabriel se pondrá en contacto pronto!");
+        ).then(function() {
+            alert("Mensaje enviado correctamente");
             contactForm.reset();
             btn.innerText = originalText;
-        }, function(error){
-            alert("Error al enviar el mensaje. Por favor, intenta por WhatsApp.");
+        }, function(error) {
+            alert("Error al enviar mensaje");
+            console.error("Fallo:", error);
             btn.innerText = originalText;
         });
     });
@@ -75,3 +73,27 @@ if(contactForm) {
 // Re-activar animaciones de scroll para la nueva página
 ScrollReveal().reveal('.reveal', { distance: '50px', duration: 1000 });
 ScrollReveal().reveal('.reveal-delayed', { delay: 400, distance: '50px' });
+
+/* --------------------------Modo celular------------------------ */
+/* -------------------------- Lógica de Menú ------------------------ */
+const menu = document.querySelector('#mobile-menu');
+const navList = document.querySelector('#nav-list');
+
+if (menu && navList) {
+    menu.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        navList.classList.toggle('active');
+        
+        // Bloquear scroll al abrir
+        document.body.style.overflow = navList.classList.contains('active') ? 'hidden' : 'auto';
+    });
+
+    // Cierra el menú al hacer clic en un enlace
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', () => {
+            menu.classList.remove('is-active');
+            navList.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+}
