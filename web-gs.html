@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diseño y desarrollo web | Gabriel Santomero</title>
+<meta name="description" content="Diseño y programo webs a medida, con 3D y Unity en el navegador. Calcula un presupuesto orientativo en un minuto, sin formularios.">
+<link rel="canonical" href="https://www.gsdesing.com/web-gs/">
+<meta property="og:title" content="Diseño y desarrollo web | Gabriel Santomero">
+<meta property="og:description" content="Webs a medida con 3D y Unity. Presupuesto orientativo al instante.">
+<meta property="og:url" content="https://www.gsdesing.com/web-gs/">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#16191E;
+  --bg-2:#1E232A;
+  --bg-3:#242A32;
+  --line:#2C333C;
+  --line-soft:#232931;
+  --ink:#E6E9ED;
+  --ink-2:#9AA4B0;
+  --ink-3:#6B7683;
+  --accent:#FF9F45;
+  --accent-ink:#1A1206;
+  --ok:#7BC48C;
+  --radius:4px;
+  --maxw:1120px;
+  --display:'Sora',system-ui,sans-serif;
+  --body:'IBM Plex Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.12;margin:0;letter-spacing:-.02em;font-weight:600}
+h1{font-size:clamp(2.3rem,6vw,4rem);font-weight:700}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 1rem}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.lede{font-size:1.1rem;color:var(--ink-2);max-width:62ch}
+.rule{border:0;border-top:1px solid var(--line-soft);margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:40;background:rgba(22,25,30,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:28px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.1rem;text-decoration:none;letter-spacing:-.03em}
+.brand span{color:var(--accent)}
+.nav-links{margin-left:auto;display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-size:.93rem}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.here{color:var(--ink)}
+
+/* ============================================================
+   HERO con suelo de rejilla en perspectiva
+   ============================================================ */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft)}
+.hero-in{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:clamp(70px,11vw,130px) 24px clamp(90px,13vw,150px)}
+.hero h1{max-width:16ch}
+.hero .lede{margin-top:22px;font-size:1.18rem}
+.hero-cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.floor{position:absolute;left:0;right:0;bottom:0;height:62%;perspective:300px;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to top,#000 4%,transparent 88%);
+  mask-image:linear-gradient(to top,#000 4%,transparent 88%)}
+.floor i{position:absolute;inset:-20% -30% 0;display:block;
+  transform:rotateX(75deg);transform-origin:bottom center;
+  background-image:linear-gradient(rgba(108,124,142,.22) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(108,124,142,.22) 1px,transparent 1px);
+  background-size:70px 70px;
+  animation:floorIn 1.1s cubic-bezier(.2,.7,.3,1) both}
+.floor b{position:absolute;left:50%;bottom:0;width:1px;height:40%;background:linear-gradient(to top,rgba(255,159,69,.5),transparent);display:block}
+@keyframes floorIn{from{opacity:0;transform:rotateX(85deg) translateY(40px)}to{opacity:1;transform:rotateX(75deg) translateY(0)}}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn{display:inline-block;padding:13px 22px;border-radius:var(--radius);text-decoration:none;
+  font-family:var(--display);font-weight:600;font-size:.95rem;border:1px solid transparent;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease}
+.btn-main{background:var(--accent);color:var(--accent-ink)}
+.btn-main:hover{background:#FFB36B}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink-3);background:var(--bg-2)}
+.btn-sm{padding:10px 16px;font-size:.88rem}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
+.sec{padding:clamp(62px,9vw,104px) 0}
+.sec-head{max-width:64ch;margin-bottom:46px}
+.sec-head p{margin-top:14px;color:var(--ink-2)}
+
+/* Tipos de proyecto */
+.tipos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.tipo{background:var(--bg);padding:26px 24px 28px}
+.tipo h3{margin-bottom:8px}
+.tipo p{color:var(--ink-2);font-size:.95rem;margin-bottom:16px}
+.tipo .desde{font-family:var(--display);font-weight:600;color:var(--accent);font-size:1.05rem}
+.tipo .desde small{display:block;color:var(--ink-3);font-family:var(--body);font-weight:400;font-size:.8rem;margin-top:2px}
+
+/* Bloque 3D */
+.tresd{background:var(--bg-2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.tresd-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.tresd h2{max-width:14ch}
+.usos{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.usos li{padding-left:22px;position:relative;color:var(--ink-2)}
+.usos li::before{content:"";position:absolute;left:0;top:.62em;width:9px;height:9px;border:1px solid var(--accent);transform:rotate(45deg)}
+.usos strong{color:var(--ink);font-weight:600;display:block;font-family:var(--display);font-size:1rem}
+
+/* Proceso */
+.pasos{display:grid;gap:0;counter-reset:paso;border-top:1px solid var(--line-soft)}
+.paso{display:grid;grid-template-columns:52px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
+.paso::before{counter-increment:paso;content:counter(paso,decimal-leading-zero);font-family:var(--display);font-weight:600;color:var(--ink-3);font-size:.95rem}
+.paso h3{margin-bottom:6px}
+.paso p{color:var(--ink-2);margin:0;max-width:66ch;font-size:.97rem}
+
+/* ============================================================
+   SIMULADOR
+   ============================================================ */
+.sim{border-top:1px solid var(--line-soft);background:linear-gradient(180deg,var(--bg-2),var(--bg) 320px)}
+.sim-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start}
+.grupo{margin-bottom:38px}
+.grupo > h3{margin-bottom:4px}
+.grupo .ayuda{color:var(--ink-3);font-size:.9rem;margin:0 0 16px}
+.ops{display:grid;gap:10px}
+.ops.dos{grid-template-columns:1fr 1fr}
+.op{position:relative;display:block;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;cursor:pointer;background:var(--bg-2);transition:border-color .15s ease,background .15s ease}
+.op:hover{border-color:var(--ink-3)}
+.op input{position:absolute;opacity:0;width:0;height:0}
+.op .titulo{display:flex;justify-content:space-between;gap:14px;align-items:baseline;font-family:var(--display);font-weight:600;font-size:.98rem}
+.op .precio{color:var(--accent);white-space:nowrap;font-size:.92rem}
+.op .desc{display:block;color:var(--ink-3);font-size:.87rem;line-height:1.45;margin-top:4px}
+.op:has(input:checked){border-color:var(--accent);background:var(--bg-3)}
+.op:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.contador{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;background:var(--bg-2)}
+.contador .et{font-family:var(--display);font-weight:600;font-size:.98rem}
+.contador .et small{display:block;font-family:var(--body);font-weight:400;color:var(--ink-3);font-size:.85rem}
+.pasos-num{display:flex;align-items:center;gap:6px}
+.pasos-num button{width:34px;height:34px;border:1px solid var(--line);background:var(--bg-3);color:var(--ink);border-radius:var(--radius);font-size:1.1rem;cursor:pointer;line-height:1}
+.pasos-num button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.pasos-num button:disabled{opacity:.35;cursor:not-allowed}
+.pasos-num output{min-width:34px;text-align:center;font-family:var(--display);font-weight:600}
+
+/* Panel resumen */
+.panel{position:sticky;top:78px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden}
+.panel-top{padding:22px 22px 20px;border-bottom:1px solid var(--line-soft)}
+.panel-top .et{color:var(--ink-3);font-size:.85rem;margin-bottom:6px}
+.rango{font-family:var(--display);font-weight:700;font-size:1.85rem;letter-spacing:-.03em;line-height:1.15}
+.rango .sep{color:var(--ink-3);font-weight:500}
+.iva-nota{color:var(--ink-3);font-size:.83rem;margin-top:6px}
+.plazo{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;font-size:.9rem;color:var(--ink-2)}
+.plazo b{color:var(--ink);font-weight:600}
+.desglose{padding:18px 22px;max-height:330px;overflow:auto}
+.desglose .fila{display:flex;justify-content:space-between;gap:14px;font-size:.9rem;padding:6px 0;color:var(--ink-2)}
+.desglose .fila b{color:var(--ink);font-weight:500;white-space:nowrap}
+.desglose .fila.base{color:var(--ink);font-weight:500}
+.desglose .fila.tot{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;color:var(--ink);font-weight:600;font-family:var(--display)}
+.panel-bottom{padding:18px 22px 22px;border-top:1px solid var(--line-soft);display:grid;gap:10px}
+.recurrente{background:var(--bg-3);border-radius:var(--radius);padding:14px 16px;font-size:.87rem;color:var(--ink-2)}
+.recurrente .fila{display:flex;justify-content:space-between;padding:3px 0}
+.recurrente .tit{font-family:var(--display);font-weight:600;color:var(--ink);font-size:.92rem;margin-bottom:6px}
+.aviso{font-size:.8rem;color:var(--ink-3);line-height:1.5}
+.consulta{background:rgba(255,159,69,.09);border:1px solid rgba(255,159,69,.35);border-radius:var(--radius);padding:12px 14px;font-size:.85rem;color:#FFC894}
+
+/* Incluye / aparte */
+.dos-col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.col{background:var(--bg);padding:28px 26px}
+.col ul{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+.col li{padding-left:24px;position:relative;color:var(--ink-2);font-size:.95rem}
+.col li::before{position:absolute;left:0;top:0;font-weight:600}
+.col.si li::before{content:"+";color:var(--ok)}
+.col.no li::before{content:"–";color:var(--ink-3)}
+.col h3{margin-bottom:18px}
+
+/* FAQ */
+.faq{border-top:1px solid var(--line-soft)}
+.faq details{border-bottom:1px solid var(--line-soft)}
+.faq summary{cursor:pointer;padding:20px 0;font-family:var(--display);font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-size:1.3rem;line-height:1;transition:transform .18s ease}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .cuerpo{padding:0 0 22px;color:var(--ink-2);max-width:72ch}
+.faq .cuerpo p:last-child{margin-bottom:0}
+
+/* Cierre */
+.cierre{background:var(--bg-2);border-top:1px solid var(--line-soft);text-align:center}
+.cierre h2{max-width:20ch;margin:0 auto 16px}
+.cierre p{color:var(--ink-2);max-width:52ch;margin:0 auto 30px}
+.cierre .hero-cta{justify-content:center}
+footer{padding:26px 0;border-top:1px solid var(--line-soft);color:var(--ink-3);font-size:.87rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--ink-2);text-decoration:none}
+
+/* Barra móvil */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:50;display:none;background:rgba(30,35,42,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 18px;align-items:center;justify-content:space-between;gap:14px}
+.barra .v{font-family:var(--display);font-weight:700;font-size:1.05rem}
+.barra .v small{display:block;font-family:var(--body);font-weight:400;font-size:.72rem;color:var(--ink-3)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:980px){
+  .sim-grid{grid-template-columns:1fr;gap:34px}
+  .panel{position:static}
+  .tresd-grid{grid-template-columns:1fr;gap:32px}
+  .dos-col{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .ops.dos{grid-template-columns:1fr}
+  .nav-links{gap:16px}
+  .nav-links a{font-size:.87rem}
+  .barra.on{display:flex}
+  body{padding-bottom:70px}
+  .paso{grid-template-columns:38px 1fr;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+@media print{
+  .nav,.hero,.tresd,.faq,.cierre,.barra,.panel-bottom .btn,.sec-head{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="/index.html">GS<span>.</span></a>
+    <div class="nav-links">
+      <a href="/index.html">Inicio</a>
+      <a href="/trabajos.html">Trabajos</a>
+      <a href="/sobre-mi.html">Sobre mí</a>
+      <a href="/web-gs/" class="here">Webs</a>
+      <a href="/contacto.html">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="floor"><i></i><b></b></div>
+  <div class="hero-in">
+    <h1>Diseño y programo tu web. Y si hace falta, la modelo en 3D.</h1>
+    <p class="lede">Trabajo con negocios que necesitan algo más que una plantilla: una web rápida, cuidada y con piezas interactivas que nadie más en tu sector tiene.</p>
+    <div class="hero-cta">
+      <a class="btn btn-main" href="#simulador">Calcular mi presupuesto</a>
+      <a class="btn btn-ghost" href="/trabajos.html">Ver trabajos</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- QUÉ PUEDO CONSTRUIR -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Qué puedo construir</h2>
+      <p>Cuatro puntos de partida. A partir de ahí, todo se ajusta a lo que necesites.</p>
+    </div>
+    <div class="tipos" id="tipos"></div>
+  </div>
+</section>
+
+<!-- GANCHO 3D -->
+<section class="sec tresd">
+  <div class="wrap tresd-grid">
+    <div>
+      <h2>3D y Unity dentro del navegador</h2>
+      <p class="lede">Modelo en 3D y desarrollo en Unity 6. Eso significa que tu web puede hacer cosas que una web normal no hace, sin plugins y sin que el visitante instale nada.</p>
+      <p style="color:var(--ink-3);font-size:.93rem">Se puede añadir a cualquiera de los proyectos de arriba, o construirse como pieza suelta para una campaña.</p>
+    </div>
+    <ul class="usos">
+      <li><strong>Configurador de producto</strong>Que el cliente gire tu producto, cambie el color o el acabado y vea el precio actualizarse en tiempo real.</li>
+      <li><strong>Visor 360º</strong>Un local, una vivienda o una pieza que se explora desde cualquier ángulo, sin salir de la página.</li>
+      <li><strong>Escena interactiva de marca</strong>Una portada que reacciona al ratón o al scroll y se recuerda al día siguiente.</li>
+      <li><strong>Minijuego de campaña</strong>Una mecánica sencilla con tu marca dentro, hecha en Unity y publicada en web.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Cómo trabajamos</h2>
+      <p>Cinco pasos, siempre los mismos. En ningún momento tienes que adivinar qué viene después.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso"><div><h3>Hablamos</h3><p>Media hora por teléfono o correo. Me cuentas qué vendes, a quién y qué webs te gustan. Sin compromiso y sin coste.</p></div></div>
+      <div class="paso"><div><h3>Presupuesto cerrado</h3><p>Te envío una propuesta con el precio final, el plazo y exactamente qué entra y qué no. A partir de ahí el precio no se mueve salvo que cambies tú el encargo.</p></div></div>
+      <div class="paso"><div><h3>Diseño</h3><p>Te enseño el diseño de las pantallas principales antes de programar nada. Dos rondas de cambios incluidas.</p></div></div>
+      <div class="paso"><div><h3>Desarrollo</h3><p>Programo la web y la pruebo en móvil, tablet y ordenador. Tienes un enlace privado para ir viendo los avances.</p></div></div>
+      <div class="paso"><div><h3>Entrega</h3><p>Publico la web, te entrego los accesos y te enseño a actualizar los contenidos. Todo queda a tu nombre.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section class="sec sim" id="simulador">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Calcula lo que te costaría</h2>
+      <p>Marca lo que necesitas y verás el desglose al momento. Es una estimación orientativa, no un presupuesto en firme: el precio final sale después de hablar contigo, y suele quedarse dentro de este rango.</p>
+    </div>
+
+    <div class="sim-grid">
+      <div id="controles"></div>
+
+      <aside class="panel" aria-live="polite">
+        <div class="panel-top">
+          <div class="et">Estimación</div>
+          <div class="rango" id="rango">—</div>
+          <div class="iva-nota" id="ivaNota"></div>
+          <div class="plazo"><span>Plazo estimado</span><b id="plazo">—</b></div>
+        </div>
+        <div class="desglose" id="desglose"></div>
+        <div class="panel-bottom">
+          <div id="consulta"></div>
+          <div class="recurrente" id="recurrente"></div>
+          <button class="btn btn-main btn-sm" id="descargar" type="button">Descargar resumen</button>
+          <a class="btn btn-ghost btn-sm" href="/contacto.html" style="text-align:center">Hablar de mi proyecto</a>
+          <p class="aviso">Estimación orientativa generada en tu navegador. No se guarda ni se envía ningún dato.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUYE / APARTE -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Qué entra y qué va aparte</h2>
+      <p>Para que no haya sorpresas a mitad del proyecto.</p>
+    </div>
+    <div class="dos-col">
+      <div class="col si">
+        <h3>Incluido en cualquier proyecto</h3>
+        <ul>
+          <li>Diseño adaptado a móvil, tablet y ordenador</li>
+          <li>Optimización de velocidad y de imágenes</li>
+          <li>Formulario de contacto funcionando</li>
+          <li>Enlaces a tus redes y a WhatsApp</li>
+          <li>Aviso legal, privacidad y cookies según normativa española</li>
+          <li>Dos rondas de cambios sobre el diseño</li>
+          <li>Publicación y entrega de todos los accesos</li>
+          <li>30 días de soporte tras la entrega</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>Se contrata aparte</h3>
+        <ul>
+          <li>Dominio y alojamiento (se paga al proveedor, no a mí)</li>
+          <li>Mantenimiento mensual, si lo quieres</li>
+          <li>Fotografía profesional de producto o local</li>
+          <li>Logotipo e identidad de marca</li>
+          <li>Campañas de publicidad y gestión de redes</li>
+          <li>Licencias de tipografías o imágenes de pago</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2>Preguntas frecuentes</h2></div>
+    <div class="faq">
+      <details><summary>¿El precio del simulador es el que voy a pagar?</summary><div class="cuerpo"><p>No exactamente. Es una horquilla para que te hagas una idea antes de llamar a nadie. El precio en firme te lo doy por escrito después de hablar contigo, cuando sé de verdad cuántas pantallas hacen falta y qué tiene que hacer cada una. En la mayoría de casos cae dentro del rango que ves aquí.</p></div></details>
+      <details><summary>¿Quién escribe los textos y pone las fotos?</summary><div class="cuerpo"><p>Por defecto los aportas tú, y así sale más barato. Si no tienes tiempo o no sabes por dónde empezar, marca la redacción de textos en el simulador y me encargo yo a partir de una entrevista contigo.</p></div></details>
+      <details><summary>¿Cuánto se tarda?</summary><div class="cuerpo"><p>Entre una semana para una landing y seis para una tienda online. El plazo empieza a contar cuando tengo los contenidos, no cuando se firma. Si necesitas ir más rápido, existe la opción de entrega urgente.</p></div></details>
+      <details><summary>¿Cómo se paga?</summary><div class="cuerpo"><p>40% al empezar y 60% al entregar. Proyectos largos se dividen en tres pagos. Factura con IVA siempre.</p></div></details>
+      <details><summary>¿La web es mía?</summary><div class="cuerpo"><p>Sí. El dominio se registra a tu nombre, el alojamiento a tu nombre y los archivos son tuyos. Si algún día quieres llevártela a otro sitio o a otro profesional, te los entrego sin poner pegas.</p></div></details>
+      <details><summary>¿Puedo actualizarla yo después?</summary><div class="cuerpo"><p>Depende de lo que hayamos montado. Si contratas el gestor de contenidos, cambias textos, fotos y entradas del blog desde un panel, y te enseño a usarlo antes de entregar. Si no, los cambios pasan por mí.</p></div></details>
+      <details><summary>¿Hace falta contratar el mantenimiento?</summary><div class="cuerpo"><p>No es obligatorio. Cubre copias de seguridad, actualizaciones, revisión mensual y cambios pequeños. Lo recomiendo en tiendas online y en webs con formularios; en una landing sencilla se puede prescindir de él.</p></div></details>
+      <details><summary>¿Trabajas solo en Granada?</summary><div class="cuerpo"><p>Estoy en Granada, pero trabajo en remoto con clientes de toda España. Videollamada, correo y WhatsApp funcionan perfectamente para todo el proceso.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec cierre">
+  <div class="wrap">
+    <h2>Cuéntame qué tienes en la cabeza</h2>
+    <p>La primera conversación no cuesta nada y no compromete a nada. Si tu idea no encaja conmigo, te lo digo.</p>
+    <div class="hero-cta">
+      <a class="btn btn-main" href="/contacto.html">Escribirme un correo</a>
+      <a class="btn btn-ghost" href="https://wa.me/380933767813" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>© 2024 Gabriel Santomero</span>
+    <span><a href="/index.html">gsdesing.com</a></span>
+  </footer>
+</div>
+
+</main>
+
+<div class="barra" id="barra">
+  <div class="v"><span id="barraRango">—</span><small>estimación orientativa</small></div>
+  <a class="btn btn-main btn-sm" href="#simulador">Ver desglose</a>
+</div>
+
+<script>
+/* ==================================================================
+   CONFIGURACIÓN — cambia aquí los precios y no toques nada más.
+   Los precios se escriben SIN IVA.
+   ================================================================== */
+const CONFIG = {
+
+  iva:        { aplicar:true, tipo:0.21, mostrarConIva:true },
+  rango:      0.12,      // ±12% sobre el total para calcular la horquilla
+  redondeo:   10,        // redondear la horquilla a múltiplos de 10 €
+
+  recurrentes: {
+    titulo:'Costes aparte, no incluidos arriba',
+    lineas:[
+      { label:'Mantenimiento mensual (opcional)', valor:'desde 25 €/mes' },
+      { label:'Dominio y alojamiento',            valor:'desde 90 €/año' }
+    ]
+  },
+
+  /* ---- PACKS BASE ---- */
+  packs:[
+    { id:'landing',   nombre:'Landing de una página', desc:'Una sola pantalla larga para un servicio, un evento o una campaña.', precio:315,  paginas:1,  semanas:[1,1], consultar:false },
+    { id:'esencial',  nombre:'Web esencial',          desc:'De 3 a 5 páginas. Inicio, servicios, sobre ti y contacto.',          precio:595,  paginas:4,  semanas:[2,3], consultar:false },
+    { id:'corporativa',nombre:'Web corporativa',      desc:'De 6 a 10 páginas, con secciones por servicio o por sede.',         precio:1050, paginas:8,  semanas:[4,5], consultar:false },
+    { id:'tienda',    nombre:'Tienda online',         desc:'Catálogo, carrito, pagos y gestión de pedidos.',                    precio:1540, paginas:8,  semanas:[5,6], consultar:false },
+    { id:'webapp',    nombre:'Aplicación a medida',   desc:'Zona privada, paneles, reservas complejas o lógica propia.',        precio:2100, paginas:6,  semanas:[6,10], consultar:true }
+  ],
+
+  /* ---- CONTADORES ---- */
+  contadores:[
+    { id:'paginas', label:'Páginas adicionales', ayuda:'Sobre las que ya trae el pack',    precio:85,  max:20, dias:2 },
+    { id:'idiomas', label:'Idiomas adicionales',  ayuda:'Traducción y maquetación aparte', precio:175, max:5,  dias:3 }
+  ],
+
+  /* ---- GRUPOS DE OPCIONES ---- */
+  grupos:[
+    {
+      id:'diseno', tipo:'radio', titulo:'Nivel de diseño',
+      ayuda:'Cuánto se aleja el resultado de una plantilla.',
+      items:[
+        { id:'plantilla', label:'Plantilla adaptada', desc:'Base profesional ajustada a tus colores, tu logo y tus contenidos.', pct:0,    dias:0 },
+        { id:'medida',    label:'Diseño a medida',    desc:'Pantallas dibujadas desde cero solo para ti.',                       pct:0.25, dias:5 }
+      ],
+      defecto:'plantilla'
+    },
+    {
+      id:'contenido', tipo:'check', titulo:'Contenidos',
+      ayuda:'Si no marcas nada, los textos y las imágenes los aportas tú.',
+      items:[
+        { id:'redaccion', label:'Redacción de textos', desc:'Escribo yo todas las páginas a partir de una entrevista contigo.', porPagina:42, dias:4 },
+        { id:'banco',     label:'Banco de imágenes',   desc:'Selección y edición de fotografías con licencia comercial.',       precio:65,    dias:1 }
+      ]
+    },
+    {
+      id:'funciones', tipo:'check', titulo:'Funciones',
+      ayuda:'Marca solo lo que vayas a usar de verdad.',
+      dosColumnas:true,
+      items:[
+        { id:'tresd',    label:'3D o Unity en la web',  desc:'Configurador, visor 360º o escena interactiva.',     precio:420, dias:7 },
+        { id:'cms',      label:'Gestor de contenidos',  desc:'Panel para editar textos, fotos y blog sin tocarme.', precio:245, dias:4 },
+        { id:'reservas', label:'Reservas o citas',      desc:'Calendario, huecos disponibles y avisos por correo.', precio:280, dias:4 },
+        { id:'pagos',    label:'Pasarela de pago',      desc:'Cobro con tarjeta o Bizum, configurado y probado.',   precio:210, dias:3 },
+        { id:'seo',      label:'SEO inicial',           desc:'Estructura, textos y fichas para aparecer en Google.',precio:175, dias:3 },
+        { id:'analitica',label:'Analítica y cookies',   desc:'Medición de visitas con aviso de cookies legal.',     precio:55,  dias:1 }
+      ]
+    },
+    {
+      id:'urgencia', tipo:'radio', titulo:'Plazo',
+      ayuda:'La entrega urgente reorganiza mi agenda para tu proyecto.',
+      items:[
+        { id:'normal',  label:'Plazo normal',    desc:'El que ves en el panel de la derecha.', pct:0,    dias:0 },
+        { id:'urgente', label:'Entrega urgente', desc:'Aproximadamente la mitad de tiempo.',   pct:0.25, dias:-999 }
+      ],
+      defecto:'normal'
+    }
+  ],
+
+  textos:{
+    consultar:'Las aplicaciones a medida se presupuestan una a una. Tómate esta cifra como punto de partida y hablemos.'
+  }
+};
+
+/* ==================================================================
+   A PARTIR DE AQUÍ, LÓGICA. No hace falta tocar nada.
+   ================================================================== */
+const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const $   = s => document.querySelector(s);
+
+const estado = {
+  pack:'esencial',
+  contadores:{ paginas:0, idiomas:0 },
+  radios:{ diseno:'plantilla', urgencia:'normal' },
+  checks:new Set()
+};
+
+/* ---------- tarjetas de tipos de proyecto ---------- */
+$('#tipos').innerHTML = CONFIG.packs.map(p=>`
+  <article class="tipo">
+    <h3>${p.nombre}</h3>
+    <p>${p.desc}</p>
+    <div class="desde">${p.consultar?'Desde ':''}${eur(p.precio)}<small>sin IVA, antes de extras</small></div>
+  </article>`).join('');
+
+/* ---------- controles del simulador ---------- */
+function pintarControles(){
+  let html = '';
+
+  html += `<div class="grupo">
+    <h3>Tipo de proyecto</h3>
+    <p class="ayuda">Elige el punto de partida más parecido a lo que necesitas.</p>
+    <div class="ops">` +
+    CONFIG.packs.map(p=>`
+      <label class="op">
+        <input type="radio" name="pack" value="${p.id}" ${estado.pack===p.id?'checked':''}>
+        <span class="titulo"><span>${p.nombre}</span><span class="precio">${p.consultar?'desde ':''}${eur(p.precio)}</span></span>
+        <span class="desc">${p.desc}</span>
+      </label>`).join('') + `</div></div>`;
+
+  CONFIG.contadores.forEach(c=>{
+    html += `<div class="grupo"><div class="contador">
+      <span class="et">${c.label}<small>${c.ayuda} · ${eur(c.precio)} cada uno</small></span>
+      <span class="pasos-num">
+        <button type="button" data-menos="${c.id}" aria-label="Quitar ${c.label}">−</button>
+        <output data-out="${c.id}">${estado.contadores[c.id]}</output>
+        <button type="button" data-mas="${c.id}" aria-label="Añadir ${c.label}">+</button>
+      </span></div></div>`;
+  });
+
+  CONFIG.grupos.forEach(g=>{
+    html += `<div class="grupo"><h3>${g.titulo}</h3><p class="ayuda">${g.ayuda}</p>
+      <div class="ops ${g.dosColumnas?'dos':''}">` +
+      g.items.map(it=>{
+        const precio = it.pct ? `+${Math.round(it.pct*100)} %`
+                     : it.porPagina ? `${eur(it.porPagina)}/pág.`
+                     : it.precio ? eur(it.precio) : 'incluido';
+        const marcado = g.tipo==='radio'
+          ? (estado.radios[g.id]===it.id?'checked':'')
+          : (estado.checks.has(it.id)?'checked':'');
+        return `<label class="op">
+          <input type="${g.tipo==='radio'?'radio':'checkbox'}" name="${g.id}" value="${it.id}" ${marcado}>
+          <span class="titulo"><span>${it.label}</span><span class="precio">${precio}</span></span>
+          <span class="desc">${it.desc}</span>
+        </label>`;
+      }).join('') + `</div></div>`;
+  });
+
+  $('#controles').innerHTML = html;
+}
+
+/* ---------- cálculo ---------- */
+function calcular(){
+  const pack = CONFIG.packs.find(p=>p.id===estado.pack);
+  const lineas = [];
+  let dias = 0;
+
+  lineas.push({ label:pack.nombre, importe:pack.precio, base:true });
+
+  const nPag = estado.contadores.paginas;
+  const cPag = CONFIG.contadores.find(c=>c.id==='paginas');
+  if(nPag>0){
+    lineas.push({ label:`${nPag} página${nPag>1?'s':''} adicional${nPag>1?'es':''}`, importe:nPag*cPag.precio });
+    dias += nPag*cPag.dias;
+  }
+  const totalPaginas = pack.paginas + nPag;
+
+  const nIdi = estado.contadores.idiomas;
+  const cIdi = CONFIG.contadores.find(c=>c.id==='idiomas');
+  if(nIdi>0){
+    lineas.push({ label:`${nIdi} idioma${nIdi>1?'s':''} adicional${nIdi>1?'es':''}`, importe:nIdi*cIdi.precio });
+    dias += nIdi*cIdi.dias;
+  }
+
+  const subtotalBase = lineas.reduce((a,l)=>a+l.importe,0);
+
+  // diseño (porcentaje sobre la base)
+  const gDis = CONFIG.grupos.find(g=>g.id==='diseno');
+  const dis  = gDis.items.find(i=>i.id===estado.radios.diseno);
+  if(dis.pct>0){
+    lineas.push({ label:dis.label, importe:Math.round(subtotalBase*dis.pct) });
+    dias += dis.dias;
+  }
+
+  // contenidos y funciones
+  CONFIG.grupos.filter(g=>g.tipo==='check').forEach(g=>{
+    g.items.forEach(it=>{
+      if(!estado.checks.has(it.id)) return;
+      const importe = it.porPagina ? it.porPagina*totalPaginas : it.precio;
+      const etiqueta = it.porPagina ? `${it.label} (${totalPaginas} pág.)` : it.label;
+      lineas.push({ label:etiqueta, importe });
+      dias += it.dias;
+    });
+  });
+
+  let total = lineas.reduce((a,l)=>a+l.importe,0);
+
+  // urgencia
+  const urg = CONFIG.grupos.find(g=>g.id==='urgencia').items.find(i=>i.id===estado.radios.urgencia);
+  if(urg.pct>0){
+    const rec = Math.round(total*urg.pct);
+    lineas.push({ label:`Entrega urgente (+${Math.round(urg.pct*100)} %)`, importe:rec });
+    total += rec;
+  }
+
+  // plazo
+  const semExtra = Math.ceil(dias/5);
+  let sMin = pack.semanas[0]+semExtra, sMax = pack.semanas[1]+semExtra;
+  if(urg.pct>0){ sMin = Math.max(1,Math.round(sMin*0.6)); sMax = Math.max(sMin,Math.round(sMax*0.6)); }
+
+  return { lineas, total, pack, sMin, sMax };
+}
+
+const redondear = n => Math.round(n/CONFIG.redondeo)*CONFIG.redondeo;
+
+/* ---------- pintar resultado ---------- */
+function pintarResultado(){
+  const r = calcular();
+  const conIva = CONFIG.iva.aplicar && CONFIG.iva.mostrarConIva;
+  const factor = conIva ? 1+CONFIG.iva.tipo : 1;
+  const totalFinal = r.total*factor;
+
+  const min = redondear(totalFinal*(1-CONFIG.rango));
+  const max = redondear(totalFinal*(1+CONFIG.rango));
+
+  $('#rango').innerHTML = `${eur(min)} <span class="sep">–</span> ${eur(max)}`;
+  $('#barraRango').textContent = `${eur(min)} – ${eur(max)}`;
+  $('#ivaNota').textContent = CONFIG.iva.aplicar
+    ? (conIva ? `IVA del ${Math.round(CONFIG.iva.tipo*100)} % incluido` : `IVA del ${Math.round(CONFIG.iva.tipo*100)} % no incluido`)
+    : '';
+  $('#plazo').textContent = r.pack.consultar ? 'a consultar'
+    : (r.sMin===r.sMax ? `${r.sMin} semana${r.sMin>1?'s':''}` : `${r.sMin}–${r.sMax} semanas`);
+
+  let d = r.lineas.map(l=>`<div class="fila ${l.base?'base':''}"><span>${l.label}</span><b>${eur(l.importe)}</b></div>`).join('');
+  d += `<div class="fila tot"><span>Total sin IVA</span><b>${eur(r.total)}</b></div>`;
+  if(CONFIG.iva.aplicar){
+    d += `<div class="fila"><span>IVA ${Math.round(CONFIG.iva.tipo*100)} %</span><b>${eur(r.total*CONFIG.iva.tipo)}</b></div>`;
+    d += `<div class="fila tot"><span>Total con IVA</span><b>${eur(r.total*(1+CONFIG.iva.tipo))}</b></div>`;
+  }
+  $('#desglose').innerHTML = d;
+
+  $('#consulta').innerHTML = r.pack.consultar ? `<div class="consulta">${CONFIG.textos.consultar}</div>` : '';
+
+  $('#recurrente').innerHTML = `<div class="tit">${CONFIG.recurrentes.titulo}</div>` +
+    CONFIG.recurrentes.lineas.map(l=>`<div class="fila"><span>${l.label}</span><b>${l.valor}</b></div>`).join('');
+}
+
+/* ---------- eventos ---------- */
+$('#controles').addEventListener('change', e=>{
+  const t = e.target;
+  if(t.name==='pack'){ estado.pack = t.value; }
+  else if(t.type==='radio'){ estado.radios[t.name] = t.value; }
+  else if(t.type==='checkbox'){ t.checked ? estado.checks.add(t.value) : estado.checks.delete(t.value); }
+  pintarResultado();
+});
+
+$('#controles').addEventListener('click', e=>{
+  const mas = e.target.dataset.mas, menos = e.target.dataset.menos;
+  const id = mas || menos;
+  if(!id) return;
+  const c = CONFIG.contadores.find(x=>x.id===id);
+  let v = estado.contadores[id];
+  v = mas ? Math.min(c.max, v+1) : Math.max(0, v-1);
+  estado.contadores[id] = v;
+  document.querySelector(`[data-out="${id}"]`).textContent = v;
+  document.querySelector(`[data-menos="${id}"]`).disabled = v===0;
+  document.querySelector(`[data-mas="${id}"]`).disabled = v===c.max;
+  pintarResultado();
+});
+
+/* ---------- descargar resumen ---------- */
+$('#descargar').addEventListener('click', ()=>{
+  const r = calcular();
+  const conIva = CONFIG.iva.aplicar && CONFIG.iva.mostrarConIva;
+  const totalFinal = r.total*(conIva?1+CONFIG.iva.tipo:1);
+  const min = redondear(totalFinal*(1-CONFIG.rango)), max = redondear(totalFinal*(1+CONFIG.rango));
+  const hoy = new Date().toLocaleDateString('es-ES');
+
+  let txt = `ESTIMACIÓN ORIENTATIVA DE PRESUPUESTO\n`;
+  txt += `Gabriel Santomero · gsdesing.com\n`;
+  txt += `Fecha: ${hoy}\n`;
+  txt += `${'-'.repeat(48)}\n\n`;
+  r.lineas.forEach(l=>{ txt += `${l.label.padEnd(36,'.')} ${eur(l.importe)}\n`; });
+  txt += `\n${'Total sin IVA'.padEnd(36,'.')} ${eur(r.total)}\n`;
+  if(CONFIG.iva.aplicar){
+    txt += `${('IVA '+Math.round(CONFIG.iva.tipo*100)+' %').padEnd(36,'.')} ${eur(r.total*CONFIG.iva.tipo)}\n`;
+    txt += `${'Total con IVA'.padEnd(36,'.')} ${eur(r.total*(1+CONFIG.iva.tipo))}\n`;
+  }
+  txt += `\nHorquilla estimada: ${eur(min)} – ${eur(max)}\n`;
+  txt += `Plazo estimado: ${r.pack.consultar?'a consultar':(r.sMin+'–'+r.sMax+' semanas')}\n\n`;
+  txt += `Costes aparte:\n`;
+  CONFIG.recurrentes.lineas.forEach(l=>{ txt += `  · ${l.label}: ${l.valor}\n`; });
+  txt += `\nEsta estimación es orientativa y no constituye una oferta\nvinculante. El presupuesto en firme se entrega por escrito\ntras una primera conversación.\n\nContacto: gsdesing.com/contacto.html\n`;
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));
+  a.download = `estimacion-web-${hoy.replace(/\//g,'-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+/* ---------- barra móvil ---------- */
+const barra = $('#barra'), sim = $('#simulador');
+new IntersectionObserver(es=>{
+  es.forEach(e=> barra.classList.toggle('on', e.isIntersecting));
+},{rootMargin:'-70px 0px -40% 0px'}).observe(sim);
+
+/* ---------- arranque ---------- */
+pintarControles();
+pintarResultado();
+CONFIG.contadores.forEach(c=>{ document.querySelector(`[data-menos="${c.id}"]`).disabled = true; });
+</script>
+</body>
+</html>
